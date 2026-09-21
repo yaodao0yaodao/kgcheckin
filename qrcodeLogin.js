@@ -56,7 +56,9 @@ async function buildQr(url, index, total) {
   await QRCode.toFile(`${QR_DIR}/qr-${index}.png`, url, { width: 320, margin: 2 })
 
   // ── 2) base64 data URI（HTML <img> 共用）──
-  const dataUrl = await QRCode.toDataURL(url, { width: 320, margin: 2 }); const qr = QRCode.create(url); const size = qr.modules.size; const data = qr.modules.data; const border = 2; const textQr = Array.from({ length: size + border * 2 }, (_, y) => Array.from({ length: size + border * 2 }, (_, x) => { const iy = y - border; const ix = x - border; return iy >= 0 && iy < size && ix >= 0 && ix < size && data[iy * size + ix] ? '██' : '  ' }).join('')).join(String.fromCharCode(10)); // ── 3) 日志输出：指引去直链步骤 ──
+  const dataUrl = await QRCode.toDataURL(url, { width: 320, margin: 2 }); const textQr = await QRCode.toString(url, { type: 'utf8', margin: 1 })
+
+  // ── 3) 日志输出：指引去直链步骤 ──
   printMagenta(`\n═══ 第 ${index}/${total} 个二维码已生成 ═══`)
   console.log('')
   console.log('  📱 如果图片链接无法打开，请直接扫描下面这段二维码：'); console.log(''); console.log(textQr)
