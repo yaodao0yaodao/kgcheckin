@@ -56,15 +56,15 @@ async function buildQr(url, index, total) {
   await QRCode.toFile(`${QR_DIR}/qr-${index}.png`, url, { width: 320, margin: 2 })
 
   // ── 2) base64 data URI（HTML <img> 共用）──
-  const dataUrl = await QRCode.toDataURL(url, { width: 320, margin: 2 }); const textQr = await QRCode.toString(url, { type: 'utf8', margin: 1 })
+  const dataUrl = await QRCode.toDataURL(url, { width: 320, margin: 2 })
 
   // ── 3) 日志输出：指引去直链步骤 ──
   printMagenta(`\n═══ 第 ${index}/${total} 个二维码已生成 ═══`)
   console.log('')
-  console.log('  📱 如果图片链接无法打开，请直接扫描下面这段二维码：'); console.log(''); console.log(textQr)
+  console.log('  🔗 请查看下一步「发布二维码图片直链」输出的链接，浏览器打开即可直接扫码')
   console.log('')
 
-  return { dataUrl, textQr, url, header, index }
+  return { dataUrl, url, header, index }
 }
 
 /**
